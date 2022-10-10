@@ -1,4 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changePortalItemId } from "./webMapViewSlice";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
@@ -6,6 +8,12 @@ import Expand from "@arcgis/core/widgets/Expand";
 
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
+  const portalItemId = useSelector((state) => {
+    // @ts-ignore
+    return state.webMapView.portalItemId;
+  });
+  const dispatch = useDispatch();
+  const switchButton = document.getElementById("switch-btn");
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -14,7 +22,7 @@ const WebMapView = (): JSX.Element => {
        */
       const webmap = new WebMap({
         portalItem: {
-          id: "aa1d3f80270146208328cf66d022e09c",
+          id: portalItemId, //"1e5040bf12764e37ad2d3ea92d062a34",
         },
       });
 
@@ -47,11 +55,26 @@ const WebMapView = (): JSX.Element => {
         }
       });
     }
-  }, []);
+  }, [portalItemId]);
 
   return (
     <>
       <div className="mapDiv" ref={mapDiv}></div>
+      <div id="infoDiv">
+        <input
+          className="esri-component esri-widget--button esri-widget esri-interactive"
+          type="button"
+          id="switch-btn"
+          value="SM"
+          onClick={() => {
+            if (portalItemId === "1e5040bf12764e37ad2d3ea92d062a34") {
+              dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
+            } else {
+              dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
+            }
+          }}
+        />
+      </div>
     </>
   );
 };

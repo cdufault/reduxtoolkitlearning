@@ -4,7 +4,7 @@ const initialState = {
   portalItemId: "aa1d3f80270146208328cf66d022e09c",
 };
 
-export const WebMapViewSlice = createSlice({
+export const webMapViewSlice = createSlice({
   name: "webMapView",
   initialState,
   reducers: {
@@ -14,6 +14,6 @@ export const WebMapViewSlice = createSlice({
   },
 });
 
-export const { changePortalItemId } = WebMapViewSlice.actions;
+export const { changePortalItemId } = webMapViewSlice.actions;
 
-export default WebMapViewSlice.reducer;
+export default webMapViewSlice.reducer;

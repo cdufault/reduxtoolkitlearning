@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import webMapViewReducer from "./features/webMap/WebMapViewSlice";
+import webMapViewReducer from "../features/webMap/webMapViewSlice";
 
 export const store = configureStore({
   reducer: {
