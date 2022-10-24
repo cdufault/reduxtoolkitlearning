@@ -1,15 +1,14 @@
 import React from "react";
-
-import WebMapView from "./features/webMap/WebMapView";
-import WebSceneView from "./features/webScene/WebSceneView";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import ViewSwitcher from "./features/ViewSwitcher/ViewSwitcher";
 
 import "./App.css";
 
 export default function App() {
+  const view = useAppSelector((state) => state.webMapView.portalItemId);
   return (
     <>
-      {/*<WebSceneView />*/}
-      <WebMapView />
+      <ViewSwitcher />
     </>
   );
 }

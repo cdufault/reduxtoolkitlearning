@@ -1,18 +1,25 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { changePortalItemId } from "./webMapViewSlice";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Expand from "@arcgis/core/widgets/Expand";
+import { changeViewType } from "../ViewSwitcher/viewSwitcherSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
-  const portalItemId = useSelector((state) => {
+  const portalItemId = useAppSelector((state) => {
     // @ts-ignore
     return state.webMapView.portalItemId;
   });
-  const dispatch = useDispatch();
+
+  const viewType = useAppSelector((state) => {
+    // @ts-ignore
+    return state.viewSwitcher.viewType;
+  });
+
+  const dispatch = useAppDispatch();
   const switchButton = document.getElementById("switch-btn");
 
   useEffect(() => {
@@ -71,6 +78,21 @@ const WebMapView = (): JSX.Element => {
               dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
             } else {
               dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
+            }
+          }}
+        />
+      </div>
+      <div id="switchDiv">
+        <input
+          className="esri-component esri-widget--button esri-widget esri-interactive"
+          type="button"
+          id="switch-view-btn"
+          value={viewType === "3D" ? "2D" : "3D"}
+          onClick={() => {
+            if (viewType === "2D") {
+              dispatch(changeViewType("3D"));
+            } else {
+              dispatch(changeViewType("2D"));
             }
           }}
         />
