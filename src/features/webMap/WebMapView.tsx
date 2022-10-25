@@ -10,12 +10,10 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
   const portalItemId = useAppSelector((state) => {
-    // @ts-ignore
     return state.webMapView.portalItemId;
   });
 
   const viewType = useAppSelector((state) => {
-    // @ts-ignore
     return state.viewSwitcher.viewType;
   });
 

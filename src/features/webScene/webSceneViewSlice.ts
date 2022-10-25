@@ -12,6 +12,7 @@ export const webSceneViewSlice = createSlice({
       state.webScenePortalItemId = action.payload;
     },
   },
+  extraReducers: {},
 });
 
 export const { changeWebScenePortalItemId } = webSceneViewSlice.actions;

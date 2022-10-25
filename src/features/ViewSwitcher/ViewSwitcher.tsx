@@ -6,7 +6,6 @@ import { useAppSelector } from "../../app/hooks";
 
 const ViewSwitcher = (): JSX.Element => {
   const viewType = useAppSelector((state) => {
-    // @ts-ignore
     return state.viewSwitcher.viewType;
   });
 

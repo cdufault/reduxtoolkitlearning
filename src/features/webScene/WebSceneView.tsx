@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import WebScene from "@arcgis/core/WebScene.js";
 import SceneView from "@arcgis/core/views/SceneView";
 import { changeWebScenePortalItemId } from "./webSceneViewSlice";
@@ -9,15 +9,14 @@ const WebSceneView = (): JSX.Element => {
   const mapDiv = useRef(null);
 
   const portalItemId = useAppSelector((state) => {
-    // @ts-ignore
     return state.webSceneView.webScenePortalItemId;
   });
   const viewType = useAppSelector((state) => {
-    // @ts-ignore
     return state.viewSwitcher.viewType;
   });
   const dispatch = useAppDispatch();
   const switchButton = document.getElementById("switch-btn");
+  const [statebutton, setStateButton] = useState();
 
   useEffect(() => {
     if (mapDiv.current) {
