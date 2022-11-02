@@ -1,7 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import WebScene from "@arcgis/core/WebScene.js";
 import SceneView from "@arcgis/core/views/SceneView";
-import { changeWebScenePortalItemId } from "./webSceneViewSlice";
+import {
+  changeWebScenePortalItemId,
+  updateWebScene,
+} from "./webSceneViewSlice";
 import { changeViewType } from "../ViewSwitcher/viewSwitcherSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
@@ -14,25 +17,41 @@ const WebSceneView = (): JSX.Element => {
   const viewType = useAppSelector((state) => {
     return state.viewSwitcher.viewType;
   });
+
+  const webScene = useAppSelector((state) => {
+    return state.webSceneView.webScene;
+  });
+
   const dispatch = useAppDispatch();
-  const switchButton = document.getElementById("switch-btn");
-  const [statebutton, setStateButton] = useState();
+
+  useEffect(() => {
+    if (mapDiv.current) {
+      /**
+       * Initialize webScene
+       */
+
+      if (webScene) {
+        const view = new SceneView({
+          container: mapDiv.current,
+          map: webScene,
+        });
+        //dispatch(updateView(view));
+      }
+    }
+  }, [webScene]);
 
   useEffect(() => {
     if (mapDiv.current) {
       /**
        * Initialize application
        */
-      const webScene = new WebScene({
+
+      const newWebScene = new WebScene({
         portalItem: {
-          id: portalItemId, //"d1eb2b990f964e739a9cf3e0cc022b3c",
+          id: portalItemId,
         },
       });
-
-      const view = new SceneView({
-        container: mapDiv.current,
-        map: webScene,
-      });
+      dispatch(updateWebScene(newWebScene));
     }
   }, [portalItemId]);
 

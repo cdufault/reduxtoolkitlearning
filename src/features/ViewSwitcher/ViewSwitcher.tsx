@@ -1,7 +1,6 @@
 import React from "react";
-
-import WebMapView from "../webMap/WebMapView";
 import WebSceneView from "../webScene/WebSceneView";
+import WebMapView from "../webMap/WebMapView";
 import { useAppSelector } from "../../app/hooks";
 
 const ViewSwitcher = (): JSX.Element => {
