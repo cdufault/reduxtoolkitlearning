@@ -24,13 +24,13 @@ const WebSceneView = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  const onSwitchClicked = () => {
-    if (portalItemId === "d1eb2b990f964e739a9cf3e0cc022b3c") {
-      dispatch(changeWebScenePortalItemId("3ec84e3c188c47fb89f69803ec729231"));
-    } else {
-      dispatch(changeWebScenePortalItemId("d1eb2b990f964e739a9cf3e0cc022b3c"));
-    }
-  };
+  // const onSwitchClicked = () => {
+  //   if (portalItemId === "d1eb2b990f964e739a9cf3e0cc022b3c") {
+  //     dispatch(changeWebScenePortalItemId("3ec84e3c188c47fb89f69803ec729231"));
+  //   } else {
+  //     dispatch(changeWebScenePortalItemId("d1eb2b990f964e739a9cf3e0cc022b3c"));
+  //   }
+  // };
 
   const onViewClicked = () => {
     if (viewType === "2D") {
@@ -74,13 +74,13 @@ const WebSceneView = (): JSX.Element => {
     <>
       <div className="mapDiv" ref={mapDiv}></div>
       <div id="infoDiv">
-        <input
-          className="esri-component esri-widget--button esri-widget esri-interactive"
-          type="button"
-          id="switch-btn"
-          value="SW"
-          onClick={onSwitchClicked}
-        />
+        {/*<input*/}
+        {/*  className="esri-component esri-widget--button esri-widget esri-interactive"*/}
+        {/*  type="button"*/}
+        {/*  id="switch-btn"*/}
+        {/*  value="SW"*/}
+        {/*  onClick={onSwitchClicked}*/}
+        {/*/>*/}
       </div>
       <div id="switchDiv">
         <input

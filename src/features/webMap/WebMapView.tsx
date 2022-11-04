@@ -66,13 +66,13 @@ const WebMapView = (): JSX.Element => {
     }
   }, [portalItemId]);
 
-  const onSwitchClicked = () => {
-    if (portalItemId === "1e5040bf12764e37ad2d3ea92d062a34") {
-      dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
-    } else {
-      dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
-    }
-  };
+  // const onSwitchClicked = () => {
+  //   if (portalItemId === "1e5040bf12764e37ad2d3ea92d062a34") {
+  //     dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
+  //   } else {
+  //     dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
+  //   }
+  // };
 
   const onViewClicked = () => {
     if (viewType === "2D") {
@@ -86,13 +86,13 @@ const WebMapView = (): JSX.Element => {
     <>
       <div className="mapDiv" ref={mapDiv}></div>
       <div id="infoDiv">
-        <input
-          className="esri-component esri-widget--button esri-widget esri-interactive"
-          type="button"
-          id="switch-btn"
-          value="SM"
-          onClick={onSwitchClicked}
-        />
+        {/*<input*/}
+        {/*  className="esri-component esri-widget--button esri-widget esri-interactive"*/}
+        {/*  type="button"*/}
+        {/*  id="switch-btn"*/}
+        {/*  value="SM"*/}
+        {/*  onClick={onSwitchClicked}*/}
+        {/*/>*/}
       </div>
       <div id="switchDiv">
         <input
