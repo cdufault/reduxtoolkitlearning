@@ -16,7 +16,8 @@ export const webSceneViewSlice = createSlice({
       state.webScene = action.payload;
     },
   },
-  extraReducers: {},
+  // used to update cases from other slices on this slice
+  extraReducers: (builder) => {},
 });
 
 export const {

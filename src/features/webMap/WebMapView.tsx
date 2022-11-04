@@ -4,7 +4,7 @@ import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Expand from "@arcgis/core/widgets/Expand";
-import { changeViewType } from "../ViewSwitcher/viewSwitcherSlice";
+import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const WebMapView = (): JSX.Element => {
@@ -66,6 +66,22 @@ const WebMapView = (): JSX.Element => {
     }
   }, [portalItemId]);
 
+  const onSwitchClicked = () => {
+    if (portalItemId === "1e5040bf12764e37ad2d3ea92d062a34") {
+      dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
+    } else {
+      dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
+    }
+  };
+
+  const onViewClicked = () => {
+    if (viewType === "2D") {
+      dispatch(changeViewType("3D"));
+    } else {
+      dispatch(changeViewType("2D"));
+    }
+  };
+
   return (
     <>
       <div className="mapDiv" ref={mapDiv}></div>
@@ -75,13 +91,7 @@ const WebMapView = (): JSX.Element => {
           type="button"
           id="switch-btn"
           value="SM"
-          onClick={() => {
-            if (portalItemId === "1e5040bf12764e37ad2d3ea92d062a34") {
-              dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
-            } else {
-              dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
-            }
-          }}
+          onClick={onSwitchClicked}
         />
       </div>
       <div id="switchDiv">
@@ -90,13 +100,7 @@ const WebMapView = (): JSX.Element => {
           type="button"
           id="switch-view-btn"
           value={viewType === "3D" ? "2D" : "3D"}
-          onClick={() => {
-            if (viewType === "2D") {
-              dispatch(changeViewType("3D"));
-            } else {
-              dispatch(changeViewType("2D"));
-            }
-          }}
+          onClick={onViewClicked}
         />
       </div>
     </>
