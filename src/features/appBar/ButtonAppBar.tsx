@@ -23,7 +23,7 @@ export default function ButtonAppBar() {
   const dispatch = useAppDispatch();
 
   const handleClose = (event: any) => {
-    if (viewType === "3D") {
+    if (viewType === "2D") {
       // in 2d mode
       if (event.currentTarget.textContent === "Map1") {
         dispatch(changePortalItemId("1e5040bf12764e37ad2d3ea92d062a34"));
