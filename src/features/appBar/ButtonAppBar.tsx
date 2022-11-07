@@ -3,13 +3,13 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem } from "@mui/material";
 import { changePortalItemId } from "../webMap/webMapViewSlice";
+import { changeWebScenePortalItemId } from "../webScene/webSceneViewSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { clickOptions } from "@testing-library/user-event/dist/click";
+import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -32,12 +32,24 @@ export default function ButtonAppBar() {
       }
     } else {
       if (event.currentTarget.textContent === "Scene1") {
-        dispatch(changePortalItemId("d1eb2b990f964e739a9cf3e0cc022b3c"));
+        dispatch(
+          changeWebScenePortalItemId("d1eb2b990f964e739a9cf3e0cc022b3c")
+        );
       } else if (event.currentTarget.textContent === "Scene2") {
-        dispatch(changePortalItemId("3ec84e3c188c47fb89f69803ec729231"));
+        dispatch(
+          changeWebScenePortalItemId("3ec84e3c188c47fb89f69803ec729231")
+        );
       }
     }
     setAnchorEl(null);
+  };
+
+  const onViewClicked = () => {
+    if (viewType === "2D") {
+      dispatch(changeViewType("3D"));
+    } else {
+      dispatch(changeViewType("2D"));
+    }
   };
 
   return (
@@ -66,15 +78,29 @@ export default function ButtonAppBar() {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Map1</MenuItem>
-            <MenuItem onClick={handleClose}>Map2</MenuItem>
-            <MenuItem onClick={handleClose}>Scene1</MenuItem>
-            <MenuItem onClick={handleClose}>Scene2</MenuItem>
+            <MenuItem onClick={handleClose} disabled={viewType === "3D"}>
+              Map1
+            </MenuItem>
+            <MenuItem onClick={handleClose} disabled={viewType === "3D"}>
+              Map2
+            </MenuItem>
+            <MenuItem onClick={handleClose} disabled={viewType === "2D"}>
+              Scene1
+            </MenuItem>
+            <MenuItem onClick={handleClose} disabled={viewType === "2D"}>
+              Scene2
+            </MenuItem>
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Test Application with Redux Toolkit
           </Typography>
-          <Button color="inherit">Login</Button>
+          <input
+            className="esri-component esri-widget--button esri-widget esri-interactive"
+            type="button"
+            id="switch-view-btn"
+            value={viewType === "2D" ? "3D" : "2D"}
+            onClick={onViewClicked}
+          />
         </Toolbar>
       </AppBar>
     </Box>
