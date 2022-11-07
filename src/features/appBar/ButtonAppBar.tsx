@@ -5,7 +5,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Menu, MenuItem } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
+import { Button, Menu, MenuItem } from "@mui/material";
 import { changePortalItemId } from "../webMap/webMapViewSlice";
 import { changeWebScenePortalItemId } from "../webScene/webSceneViewSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -14,12 +15,23 @@ import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const viewType = useAppSelector((state) => {
     return state.viewSwitcher.viewType;
   });
+
+  // const webMap = useAppSelector((state) => {
+  //   return state.webMapView.webMap;
+  // });
+
+  // const currentView = useAppSelector((state) => {
+  //   return state.buttonAppBar.currentView();
+  // });
+
   const dispatch = useAppDispatch();
 
   const handleClose = (event: any) => {
@@ -52,6 +64,11 @@ export default function ButtonAppBar() {
     }
   };
 
+  const onSaveClicked = () => {
+    // webMap.map.updateFrom(view);
+    console.log("Save Clicked.");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -61,6 +78,7 @@ export default function ButtonAppBar() {
             edge="start"
             color="inherit"
             aria-label="menu"
+            title="Select Map or Scene View."
             sx={{ mr: 2 }}
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
@@ -94,13 +112,23 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Test Application with Redux Toolkit
           </Typography>
-          <input
-            className="esri-component esri-widget--button esri-widget esri-interactive"
-            type="button"
-            id="switch-view-btn"
-            value={viewType === "2D" ? "3D" : "2D"}
+          <IconButton
+            aria-label="save"
+            size="large"
+            title="Save WebMap."
+            onClick={onSaveClicked}
+            disabled={viewType === "3D"}
+          >
+            <SaveIcon />
+          </IconButton>
+          <Button
+            variant="contained"
+            size="large"
+            title="Change View Type."
             onClick={onViewClicked}
-          />
+          >
+            {viewType === "2D" ? "3D" : "2D"}
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

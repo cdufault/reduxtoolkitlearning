@@ -28,6 +28,7 @@ const WebSceneView = (): JSX.Element => {
           container: mapDiv.current,
           map: webScene,
         });
+        // dispatch(currentView(view));
       }
     }
   }, [webScene]);

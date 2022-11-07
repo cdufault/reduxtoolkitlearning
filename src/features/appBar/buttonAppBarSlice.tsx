@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import View from "@arcgis/core/views/View";
 
 const initialState = {
-  viewType: "2D",
+  currentView: new View(),
 };
 
 export const buttonAppBarSlice = createSlice({
-  name: "viewSwitcher",
+  name: "buttonAppBar",
   initialState,
   reducers: {
-    changeViewType: (state, action) => {
-      state.viewType = action.payload;
+    currentView: (state, action) => {
+      state.currentView = action.payload;
     },
   },
 });
 
-export const { changeViewType } = buttonAppBarSlice.actions;
+export const { currentView } = buttonAppBarSlice.actions;
 
 export default buttonAppBarSlice.reducer;

@@ -7,8 +7,6 @@ const ViewSwitcher = (): JSX.Element => {
     return state.viewSwitcher.viewType;
   });
 
-  //https://sampleserver6.arcgisonline.com/arcgis/rest/services/Military/FeatureServer
-
   return <>{viewType === "3D" ? <WebSceneView /> : <WebMapView />}</>;
 };
 export default ViewSwitcher;

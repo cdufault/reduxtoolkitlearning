@@ -43,6 +43,7 @@ const WebMapView = (): JSX.Element => {
 
         // Add the widget to the top-right corner of the view
         view.ui.add(bookmarkExpand, "top-right");
+        // dispatch(updateView(view));
       }
     }
   }, [webMap]);
