@@ -5,6 +5,7 @@ import WebMap from "@arcgis/core/WebMap";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Expand from "@arcgis/core/widgets/Expand";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { currentView } from "../appBar/buttonAppBarSlice";
 
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
@@ -43,7 +44,7 @@ const WebMapView = (): JSX.Element => {
 
         // Add the widget to the top-right corner of the view
         view.ui.add(bookmarkExpand, "top-right");
-        // dispatch(updateView(view));
+        dispatch(currentView(view));
       }
     }
   }, [webMap]);

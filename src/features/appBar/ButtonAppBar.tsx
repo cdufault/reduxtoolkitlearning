@@ -5,32 +5,33 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import SaveIcon from "@mui/icons-material/Save";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { changePortalItemId } from "../webMap/webMapViewSlice";
 import { changeWebScenePortalItemId } from "../webScene/webSceneViewSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
+import { LibraryAdd } from "@mui/icons-material";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import { currentView, getGeoJson } from "./buttonAppBarSlice";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const layerUrl =
+    "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0";
+  // '"https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0';
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const theViewToUpdate = useAppSelector((state) => {
+    return state.buttonAppBar.theView;
+  });
+
   const viewType = useAppSelector((state) => {
     return state.viewSwitcher.viewType;
   });
-
-  // const webMap = useAppSelector((state) => {
-  //   return state.webMapView.webMap;
-  // });
-
-  // const currentView = useAppSelector((state) => {
-  //   return state.buttonAppBar.currentView();
-  // });
 
   const dispatch = useAppDispatch();
 
@@ -64,8 +65,20 @@ export default function ButtonAppBar() {
     }
   };
 
-  const onSaveClicked = () => {
+  const onAddClicked = () => {
     // webMap.map.updateFrom(view);
+    //https://landscape11.arcgis.com/arcgis/rest/services/USA_Soils_Map_Units/featureserver
+    // const layer = dispatch(getLayer);
+    const result = dispatch(getGeoJson);
+    if (theViewToUpdate) {
+      console.log("map exists");
+      const layer = new FeatureLayer({
+        url: layerUrl,
+      });
+      // @ts-ignore
+      theViewToUpdate.map.add(layer, 0);
+      dispatch(currentView(theViewToUpdate));
+    }
     console.log("Save Clicked.");
   };
 
@@ -115,11 +128,11 @@ export default function ButtonAppBar() {
           <IconButton
             aria-label="save"
             size="large"
-            title="Save WebMap."
-            onClick={onSaveClicked}
+            title="Add Layer."
+            onClick={onAddClicked}
             disabled={viewType === "3D"}
           >
-            <SaveIcon />
+            <LibraryAdd />
           </IconButton>
           <Button
             variant="contained"

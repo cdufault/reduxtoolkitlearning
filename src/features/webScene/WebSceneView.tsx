@@ -3,6 +3,7 @@ import WebScene from "@arcgis/core/WebScene.js";
 import SceneView from "@arcgis/core/views/SceneView";
 import { updateWebScene } from "./webSceneViewSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { currentView } from "../appBar/buttonAppBarSlice";
 
 const WebSceneView = (): JSX.Element => {
   const mapDiv = useRef(null);
@@ -29,6 +30,8 @@ const WebSceneView = (): JSX.Element => {
           map: webScene,
         });
         // dispatch(currentView(view));
+        // dispatch(currentViewMap(view.map));
+        dispatch(currentView(view));
       }
     }
   }, [webScene]);
