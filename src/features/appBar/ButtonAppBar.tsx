@@ -69,7 +69,7 @@ export default function ButtonAppBar() {
     // webMap.map.updateFrom(view);
     //https://landscape11.arcgis.com/arcgis/rest/services/USA_Soils_Map_Units/featureserver
     // const layer = dispatch(getLayer);
-    const result = dispatch(getGeoJson);
+    dispatch(getGeoJson());
     if (theViewToUpdate) {
       console.log("map exists");
       const layer = new FeatureLayer({

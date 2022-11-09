@@ -4,6 +4,7 @@ import esriRequest from "@arcgis/core/request";
 
 const initialState = {
   theView: new View(),
+  loading: false,
 };
 
 export const getGeoJson = createAsyncThunk("fetchLayer", async () => {
@@ -11,6 +12,8 @@ export const getGeoJson = createAsyncThunk("fetchLayer", async () => {
     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
   return esriRequest(url, {
     responseType: "json",
+  }).then((response) => {
+    return response.data;
   });
 });
 
@@ -23,9 +26,17 @@ export const buttonAppBarSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    builder.addCase(getGeoJson.pending, (state, action) => {
+      console.log("pending async Thunk");
+      state.loading = true;
+    });
     builder.addCase(getGeoJson.fulfilled, (state, action) => {
-      console.log("Testing async Thunk");
-      console.log(action);
+      console.log("fulfilled async Thunk");
+      state.loading = false;
+    });
+    builder.addCase(getGeoJson.rejected, (state, action) => {
+      console.log("rejected async Thunk");
+      state.loading = false;
     });
   },
 });
