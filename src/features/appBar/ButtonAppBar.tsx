@@ -45,7 +45,7 @@ export default function ButtonAppBar() {
   useEffect(() => {
     if (currentLoadingState) {
       enqueueSnackbar("Retrieving a geoJSON", {
-        variant: "success",
+        variant: "warning",
       });
     } else {
       enqueueSnackbar("Loading of geoJSON is complete", {
