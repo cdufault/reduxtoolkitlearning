@@ -13,10 +13,13 @@ import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
 import { LibraryAdd } from "@mui/icons-material";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import { currentView, getGeoJson } from "./buttonAppBarSlice";
+import { useSnackbar } from "notistack";
+import { useEffect } from "react";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { enqueueSnackbar } = useSnackbar();
   const layerUrl =
     "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0";
   // '"https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0';
@@ -29,11 +32,27 @@ export default function ButtonAppBar() {
     return state.buttonAppBar.theView;
   });
 
+  const currentLoadingState = useAppSelector((state) => {
+    return state.buttonAppBar.loading;
+  });
+
   const viewType = useAppSelector((state) => {
     return state.viewSwitcher.viewType;
   });
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentLoadingState) {
+      enqueueSnackbar("Retrieving a geoJSON", {
+        variant: "success",
+      });
+    } else {
+      enqueueSnackbar("Loading of geoJSON is complete", {
+        variant: "success",
+      });
+    }
+  }, [currentLoadingState]);
 
   const handleClose = (event: any) => {
     if (viewType === "2D") {
@@ -60,8 +79,10 @@ export default function ButtonAppBar() {
   const onViewClicked = () => {
     if (viewType === "2D") {
       dispatch(changeViewType("3D"));
+      enqueueSnackbar("View Changed 3D", { variant: "info" });
     } else {
       dispatch(changeViewType("2D"));
+      enqueueSnackbar("View Changed 2D", { variant: "info" });
     }
   };
 
@@ -77,6 +98,9 @@ export default function ButtonAppBar() {
       });
       // @ts-ignore
       theViewToUpdate.map.add(layer, 0);
+      enqueueSnackbar("Layer added to map.", {
+        variant: "success",
+      });
       dispatch(currentView(theViewToUpdate));
     }
     console.log("Save Clicked.");

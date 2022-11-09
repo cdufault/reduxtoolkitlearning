@@ -7,7 +7,7 @@ const initialState = {
   loading: false,
 };
 
-export const getGeoJson = createAsyncThunk("fetchLayer", async () => {
+export const getGeoJson = createAsyncThunk("getGeoJson", async () => {
   let url =
     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
   return esriRequest(url, {
