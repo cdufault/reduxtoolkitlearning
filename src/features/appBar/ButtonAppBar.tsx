@@ -48,7 +48,7 @@ export default function ButtonAppBar() {
         variant: "warning",
       });
     } else {
-      enqueueSnackbar("Loading of geoJSON is complete", {
+      enqueueSnackbar("Retrieved a geoJSON", {
         variant: "success",
       });
     }
@@ -62,6 +62,7 @@ export default function ButtonAppBar() {
       } else if (event.currentTarget.textContent === "Map2") {
         dispatch(changePortalItemId("aa1d3f80270146208328cf66d022e09c"));
       }
+      enqueueSnackbar("Map Change fired", { variant: "info" });
     } else {
       if (event.currentTarget.textContent === "Scene1") {
         dispatch(
@@ -72,6 +73,7 @@ export default function ButtonAppBar() {
           changeWebScenePortalItemId("3ec84e3c188c47fb89f69803ec729231")
         );
       }
+      enqueueSnackbar("Scene Change fired", { variant: "info" });
     }
     setAnchorEl(null);
   };
