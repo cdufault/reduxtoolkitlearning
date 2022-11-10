@@ -52,7 +52,7 @@ export default function ButtonAppBar() {
         variant: "success",
       });
     }
-  }, [currentLoadingState]);
+  }, [currentLoadingState, enqueueSnackbar]);
 
   const handleClose = (event: any) => {
     if (viewType === "2D") {
