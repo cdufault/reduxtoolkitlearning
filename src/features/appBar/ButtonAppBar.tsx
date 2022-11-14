@@ -11,10 +11,9 @@ import { changeWebScenePortalItemId } from "../webScene/webSceneViewSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
 import { LibraryAdd } from "@mui/icons-material";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import { currentView, getGeoJson } from "./buttonAppBarSlice";
+import { getGeoJson, updateLayerUrl } from "./buttonAppBarSlice";
 import { useSnackbar } from "notistack";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -22,15 +21,11 @@ export default function ButtonAppBar() {
   const { enqueueSnackbar } = useSnackbar();
   const layerUrl =
     "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0";
-  // '"https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0';
 
+  const [theView, setTheView] = useState();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const theViewToUpdate = useAppSelector((state) => {
-    return state.buttonAppBar.theView;
-  });
 
   const currentLoadingState = useAppSelector((state) => {
     return state.buttonAppBar.loading;
@@ -89,23 +84,12 @@ export default function ButtonAppBar() {
   };
 
   const onAddClicked = () => {
-    // webMap.map.updateFrom(view);
-    //https://landscape11.arcgis.com/arcgis/rest/services/USA_Soils_Map_Units/featureserver
-    // const layer = dispatch(getLayer);
     dispatch(getGeoJson());
-    if (theViewToUpdate) {
+    if (theView) {
       console.log("map exists");
-      const layer = new FeatureLayer({
-        url: layerUrl,
-      });
-      // @ts-ignore
-      theViewToUpdate.map.add(layer, 0);
-      enqueueSnackbar("Layer added to map.", {
-        variant: "success",
-      });
-      dispatch(currentView(theViewToUpdate));
+      dispatch(updateLayerUrl(layerUrl));
+      console.log("Add Layer Clicked.");
     }
-    console.log("Save Clicked.");
   };
 
   return (

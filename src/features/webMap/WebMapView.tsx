@@ -1,23 +1,23 @@
-import React, { useRef, useEffect } from "react";
-import { updateWebMap } from "./webMapViewSlice";
+import React, { useRef, useEffect, useState } from "react";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Expand from "@arcgis/core/widgets/Expand";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { currentView } from "../appBar/buttonAppBarSlice";
+import { useAppSelector } from "../../app/hooks";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import { useSnackbar } from "notistack";
 
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
+  const { enqueueSnackbar } = useSnackbar();
+  const [webMap, setWebMap] = useState<WebMap>();
   const portalItemId = useAppSelector((state) => {
     return state.webMapView.portalItemId;
   });
 
-  const webMap = useAppSelector((state) => {
-    return state.webMapView.webMap;
+  const layerUrl = useAppSelector((state) => {
+    return state.buttonAppBar.layerUrl;
   });
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -44,7 +44,6 @@ const WebMapView = (): JSX.Element => {
 
         // Add the widget to the top-right corner of the view
         view.ui.add(bookmarkExpand, "top-right");
-        dispatch(currentView(view));
       }
     }
   }, [webMap]);
@@ -59,9 +58,28 @@ const WebMapView = (): JSX.Element => {
           id: portalItemId, //"1e5040bf12764e37ad2d3ea92d062a34",
         },
       });
-      dispatch(updateWebMap(newWebMap));
+      setWebMap(newWebMap);
     }
   }, [portalItemId]);
+
+  useEffect(() => {
+    if (webMap) {
+      /**
+       * Initialize application
+       */
+      if (layerUrl !== "") {
+        const layer = new FeatureLayer({
+          url: layerUrl,
+        });
+
+        // @ts-ignore
+        webMap.add(layer, 0);
+        enqueueSnackbar("Layer added to map.", {
+          variant: "success",
+        });
+      }
+    }
+  }, [layerUrl, webMap, enqueueSnackbar]);
 
   return (
     <>

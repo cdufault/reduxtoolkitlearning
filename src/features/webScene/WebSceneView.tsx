@@ -1,22 +1,16 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import WebScene from "@arcgis/core/WebScene.js";
 import SceneView from "@arcgis/core/views/SceneView";
-import { updateWebScene } from "./webSceneViewSlice";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { currentView } from "../appBar/buttonAppBarSlice";
+import { useAppSelector } from "../../app/hooks";
 
 const WebSceneView = (): JSX.Element => {
   const mapDiv = useRef(null);
 
+  const [webScene, setWebScene] = useState<WebScene>();
+
   const portalItemId = useAppSelector((state) => {
     return state.webSceneView.webScenePortalItemId;
   });
-
-  const webScene = useAppSelector((state) => {
-    return state.webSceneView.webScene;
-  });
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (mapDiv.current) {
@@ -31,7 +25,7 @@ const WebSceneView = (): JSX.Element => {
         });
         // dispatch(currentView(view));
         // dispatch(currentViewMap(view.map));
-        dispatch(currentView(view));
+        // dispatch(currentView(view));
       }
     }
   }, [webScene]);
@@ -47,7 +41,7 @@ const WebSceneView = (): JSX.Element => {
           id: portalItemId,
         },
       });
-      dispatch(updateWebScene(newWebScene));
+      setWebScene(newWebScene);
     }
   }, [portalItemId]);
 

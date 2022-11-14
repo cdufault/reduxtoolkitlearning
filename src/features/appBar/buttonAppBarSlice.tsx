@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import View from "@arcgis/core/views/View";
 import esriRequest from "@arcgis/core/request";
 
 const initialState = {
-  theView: new View(),
   loading: false,
+  layerUrl: "",
 };
 
 export const getGeoJson = createAsyncThunk("getGeoJson", async () => {
@@ -21,8 +20,8 @@ export const buttonAppBarSlice = createSlice({
   name: "buttonAppBar",
   initialState,
   reducers: {
-    currentView: (state, action) => {
-      state.theView = action.payload;
+    updateLayerUrl: (state, action) => {
+      state.layerUrl = action.payload;
     },
   },
   extraReducers(builder) {
@@ -41,6 +40,6 @@ export const buttonAppBarSlice = createSlice({
   },
 });
 
-export const { currentView } = buttonAppBarSlice.actions;
+export const { updateLayerUrl } = buttonAppBarSlice.actions;
 
 export default buttonAppBarSlice.reducer;
