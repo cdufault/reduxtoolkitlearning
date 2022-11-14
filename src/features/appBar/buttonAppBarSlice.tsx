@@ -3,7 +3,6 @@ import esriRequest from "@arcgis/core/request";
 
 const initialState = {
   loading: false,
-  layerUrl: "",
 };
 
 export const getGeoJson = createAsyncThunk("getGeoJson", async () => {
@@ -19,27 +18,26 @@ export const getGeoJson = createAsyncThunk("getGeoJson", async () => {
 export const buttonAppBarSlice = createSlice({
   name: "buttonAppBar",
   initialState,
-  reducers: {
-    updateLayerUrl: (state, action) => {
-      state.layerUrl = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(getGeoJson.pending, (state, action) => {
       console.log("pending async Thunk");
+      console.log(action.payload);
       state.loading = true;
     });
     builder.addCase(getGeoJson.fulfilled, (state, action) => {
       console.log("fulfilled async Thunk");
+      console.log(action.payload);
       state.loading = false;
     });
     builder.addCase(getGeoJson.rejected, (state, action) => {
       console.log("rejected async Thunk");
+      console.log(action.payload);
       state.loading = false;
     });
   },
 });
 
-export const { updateLayerUrl } = buttonAppBarSlice.actions;
+export const {} = buttonAppBarSlice.actions;
 
 export default buttonAppBarSlice.reducer;

@@ -1,22 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
+import View from "@arcgis/core/views/View";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Expand from "@arcgis/core/widgets/Expand";
 import { useAppSelector } from "../../app/hooks";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import { useSnackbar } from "notistack";
 
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
-  const { enqueueSnackbar } = useSnackbar();
   const [webMap, setWebMap] = useState<WebMap>();
+  const [view, setView] = useState<View>();
   const portalItemId = useAppSelector((state) => {
     return state.webMapView.portalItemId;
-  });
-
-  const layerUrl = useAppSelector((state) => {
-    return state.buttonAppBar.layerUrl;
   });
 
   useEffect(() => {
@@ -44,6 +39,7 @@ const WebMapView = (): JSX.Element => {
 
         // Add the widget to the top-right corner of the view
         view.ui.add(bookmarkExpand, "top-right");
+        setView(view);
       }
     }
   }, [webMap]);
@@ -61,25 +57,6 @@ const WebMapView = (): JSX.Element => {
       setWebMap(newWebMap);
     }
   }, [portalItemId]);
-
-  useEffect(() => {
-    if (webMap) {
-      /**
-       * Initialize application
-       */
-      if (layerUrl !== "") {
-        const layer = new FeatureLayer({
-          url: layerUrl,
-        });
-
-        // @ts-ignore
-        webMap.add(layer, 0);
-        enqueueSnackbar("Layer added to map.", {
-          variant: "success",
-        });
-      }
-    }
-  }, [layerUrl, webMap, enqueueSnackbar]);
 
   return (
     <>

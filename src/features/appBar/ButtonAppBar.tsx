@@ -11,18 +11,14 @@ import { changeWebScenePortalItemId } from "../webScene/webSceneViewSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { changeViewType } from "../viewSwitcher/viewSwitcherSlice";
 import { LibraryAdd } from "@mui/icons-material";
-import { getGeoJson, updateLayerUrl } from "./buttonAppBarSlice";
+import { getGeoJson } from "./buttonAppBarSlice";
 import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function ButtonAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { enqueueSnackbar } = useSnackbar();
-  const layerUrl =
-    "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0";
-
-  const [theView, setTheView] = useState();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -85,11 +81,6 @@ export default function ButtonAppBar() {
 
   const onAddClicked = () => {
     dispatch(getGeoJson());
-    if (theView) {
-      console.log("map exists");
-      dispatch(updateLayerUrl(layerUrl));
-      console.log("Add Layer Clicked.");
-    }
   };
 
   return (

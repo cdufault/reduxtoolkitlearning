@@ -23,9 +23,6 @@ const WebSceneView = (): JSX.Element => {
           container: mapDiv.current,
           map: webScene,
         });
-        // dispatch(currentView(view));
-        // dispatch(currentViewMap(view.map));
-        // dispatch(currentView(view));
       }
     }
   }, [webScene]);
