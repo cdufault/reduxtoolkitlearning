@@ -106,21 +106,22 @@ export default function ButtonAppBar() {
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
+            MenuListProps={{ "aria-labelledby": "basic-button" }}
           >
             <MenuItem onClick={handleClose} disabled={viewType === "3D"}>
               Map1
             </MenuItem>
             <MenuItem onClick={handleClose} disabled={viewType === "3D"}>
-              Map2
+              {" "}
+              Map2{" "}
             </MenuItem>
             <MenuItem onClick={handleClose} disabled={viewType === "2D"}>
-              Scene1
+              {" "}
+              Scene1{" "}
             </MenuItem>
             <MenuItem onClick={handleClose} disabled={viewType === "2D"}>
-              Scene2
+              {" "}
+              Scene2{" "}
             </MenuItem>
           </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

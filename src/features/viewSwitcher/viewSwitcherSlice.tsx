@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  viewMap: null,
   viewType: "2D",
 };
 
