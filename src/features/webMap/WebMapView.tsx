@@ -1,53 +1,62 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import MapView from "@arcgis/core/views/MapView";
 import WebMap from "@arcgis/core/WebMap";
+import View from "@arcgis/core/views/View";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Expand from "@arcgis/core/widgets/Expand";
+import { useAppSelector } from "../../app/hooks";
 
 const WebMapView = (): JSX.Element => {
   const mapDiv = useRef(null);
+  const [webMap, setWebMap] = useState<WebMap>();
+  const [view, setView] = useState<View>();
+  const portalItemId = useAppSelector((state) => {
+    return state.webMapView.portalItemId;
+  });
+
+  useEffect(() => {
+    if (mapDiv.current) {
+      /**
+       * Initialize webScene
+       */
+      if (webMap) {
+        const view = new MapView({
+          container: mapDiv.current,
+          map: webMap,
+        });
+
+        const bookmarks = new Bookmarks({
+          view,
+          // allows bookmarks to be added, edited, or deleted
+          editingEnabled: true,
+        });
+
+        const bookmarkExpand = new Expand({
+          view,
+          content: bookmarks,
+          expanded: true,
+        });
+
+        // Add the widget to the top-right corner of the view
+        view.ui.add(bookmarkExpand, "top-right");
+        setView(view);
+      }
+    }
+  }, [webMap]);
 
   useEffect(() => {
     if (mapDiv.current) {
       /**
        * Initialize application
        */
-      const webmap = new WebMap({
+      const newWebMap = new WebMap({
         portalItem: {
-          id: "aa1d3f80270146208328cf66d022e09c",
+          id: portalItemId, //"1e5040bf12764e37ad2d3ea92d062a34",
         },
       });
-
-      const view = new MapView({
-        container: mapDiv.current,
-        map: webmap,
-      });
-
-      const bookmarks = new Bookmarks({
-        view,
-        // allows bookmarks to be added, edited, or deleted
-        editingEnabled: true,
-      });
-
-      const bookmarkExpand = new Expand({
-        view,
-        content: bookmarks,
-        expanded: true,
-      });
-
-      // Add the widget to the top-right corner of the view
-      view.ui.add(bookmarkExpand, "top-right");
-
-      // bonus - how many bookmarks in the webmap?
-      webmap.when(() => {
-        if (webmap.bookmarks && webmap.bookmarks.length) {
-          console.log("Bookmarks: ", webmap.bookmarks.length);
-        } else {
-          console.log("No bookmarks in this webmap.");
-        }
-      });
+      setWebMap(newWebMap);
     }
-  }, []);
+  }, [portalItemId]);
 
   return (
     <>
