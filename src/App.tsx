@@ -4,13 +4,15 @@ import ViewSwitcher from "./features/viewSwitcher/ViewSwitcher";
 
 import "./App.css";
 import ButtonAppBar from "./features/appBar/ButtonAppBar";
+import LandingPage from "./features/LandingPage/LandingPage";
 
 export default function App() {
   // const view = useAppSelector((state) => state.webMapView.portalItemId);
   return (
     <>
-      <ButtonAppBar />
-      <ViewSwitcher />
+      <LandingPage />
+      {/*<ButtonAppBar />*/}
+      {/*<ViewSwitcher />*/}
     </>
   );
 }
